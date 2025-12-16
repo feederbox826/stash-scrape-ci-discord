@@ -1,5 +1,6 @@
 import { update_scrapers, scrape_url } from "./stash-scrape-ci.js";
 import { followUpDeferred } from "./utils.js";
+import { scrapeURLEmbed } from "./embedGen.js";
 
 export const UPDATE_SCRAPERS = {
   name: "update_scrapers",
@@ -49,10 +50,11 @@ export const SCRAPE_URL = {
     const token = interaction.token;
 
     const sendScrape = async () => {
-      const jobId = await scrape_url(url, type, auth)
-        .then(json => json.jobId);
-      const content = `Results: [${jobId}](https://scrape.feederbox.cc/${type}?id=${jobId})`;
-      await followUpDeferred(applicationId, token, content)
+      const jobResults = await scrape_url(url, type, auth);
+      const embed = scrapeURLEmbed(jobResults);
+      await followUpDeferred(applicationId, token, embed)
+        .then(async (result) => console.log(await result.json()))
+        .catch((error) => console.error('Error sending follow-up:', error));
     }
     wait(sendScrape());
     // immediately defer, ephemeral not available

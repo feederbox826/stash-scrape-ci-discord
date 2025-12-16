@@ -1,8 +1,8 @@
-export const followUpDeferred = (applicationId, interToken, content) =>
+export const followUpDeferred = (applicationId, interToken, body) =>
   fetch(`https://discord.com/api/v10/webhooks/${applicationId}/${interToken}/messages/@original`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content })
+    body: JSON.stringify(body)
   });
 
 export async function verifySig(key, timestamp, body, sig) {
