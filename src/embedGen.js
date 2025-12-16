@@ -27,7 +27,7 @@ const sceneEmbed = (scrapeResult) => ({
         "name": scrapeResult.result.studio
       },
       "title": scrapeResult.result.title,
-      "description": scrapeResult.result.description || "No description available.",
+      "description": scrapeResult.result.details || "No description available.",
       "fields": [{
           "name": "Performers",
           "value": scrapeResult.result.performers.join(", ") || "N/A",

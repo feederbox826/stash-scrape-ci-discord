@@ -38,11 +38,26 @@ const handleInteraction = async ({ request, env, wait }) => {
   const commandName = body.data.name;
   const commandsArray = Object.values(commands);
   const commandMatch = commandsArray.find(e => e.name == commandName);
+  // check authorized users
+  const authorizedUsers = env.AUTHORIZED_USERS.split(',');
+  // allow contributor, backers, stashdb admins
+  const allowedRoles = [582606438405505028,785994107373879316,1314029184460394497];
+  const memberRoles = body.member.roles || [];
+  const hasAllowedRole = memberRoles.some(roleId => allowedRoles.includes(roleId));
+  if (!authorizedUsers.includes(body.member.user.id) && !hasAllowedRole) {
+    return jsonResponse({
+      type: 4,
+      data: {
+        content: 'stash-scrape-ci is in beta and access is restricted while we figure out some quirks, sorry!',
+        flags: 64,
+      },
+    });
+  }
   if (!commandMatch)
     return new Response(null, { status: 404 });
   else {
     try {
-      const cmdResult = await commandMatch.execute({ interaction: body, auth: env.AUTH_KEY, wait });
+      const cmdResult = await commandMatch.execute({ interaction: body, env, wait });
       return jsonResponse(cmdResult);
     } catch (err) {
       console.log(body);

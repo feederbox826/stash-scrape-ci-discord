@@ -21,6 +21,7 @@ export const UPDATE_SCRAPERS = {
 export const SCRAPE_URL = {
   name: "scrape_url",
   description: "Scrape a specific URL.",
+  nsfw: true,
   options: [
     {
       name: "url",
@@ -41,7 +42,8 @@ export const SCRAPE_URL = {
       ]
     }
   ],
-  execute: async ({ interaction, auth, wait }) => {
+  execute: async ({ interaction, env, wait }) => {
+    const auth = env.AUTH_KEY;
     const url = interaction.data.options.find(opt => opt.name === "url").value;
     const type = interaction.data.options.find(opt => opt.name === "type").value;
 
