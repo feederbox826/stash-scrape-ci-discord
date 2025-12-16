@@ -1,0 +1,6 @@
+{
+  "name": "scrape-ci-discord",
+  "main": "src/index.js",
+  "compatibility_date": "2024-10-04",
+  "workers_dev": true
+}

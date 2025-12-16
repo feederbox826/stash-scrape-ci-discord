@@ -1,0 +1,61 @@
+import { update_scrapers, scrape_url } from "./stash-scrape-ci.js";
+import { followUpDeferred } from "./utils.js";
+
+export const UPDATE_SCRAPERS = {
+  name: "update_scrapers",
+  description: "Update all scrapers and run database migration.",
+  options: [],
+  execute: async ({ interaction, auth }) => {
+    await update_scrapers(auth);
+    return({
+      type: 4,
+      data: {
+        content: "Scrapers updated and database migrated successfully.",
+        flags: 64
+      }
+    });
+  }
+}
+
+export const SCRAPE_URL = {
+  name: "scrape_url",
+  description: "Scrape a specific URL.",
+  options: [
+    {
+      name: "url",
+      description: "The URL to scrape.",
+      type: 3,
+      required: true
+    }, {
+      name: "type",
+      description: "The type of scraper to use.",
+      type: 3,
+      required: true,
+      choices: [
+        { name: "Scene", value: "scene" },
+        { name: "Performer", value: "performer" },
+        { name: "Group", value: "group"},
+        { name: "Gallery", value: "gallery" },
+        { name: "Image", value: "image" }
+      ]
+    }
+  ],
+  execute: async ({ interaction, auth, wait }) => {
+    const url = interaction.data.options.find(opt => opt.name === "url").value;
+    const type = interaction.data.options.find(opt => opt.name === "type").value;
+
+    // defer response since it can take >3s
+    const applicationId = interaction.application_id;
+    const token = interaction.token;
+
+    const sendScrape = async () => {
+      const jobId = await scrape_url(url, type, auth)
+        .then(json => json.jobId);
+      const content = `Results: [${jobId}](https://scrape.feederbox.cc/${type}?id=${jobId})`;
+      await followUpDeferred(applicationId, token, content)
+    }
+    wait(sendScrape());
+    // immediately defer, ephemeral not available
+    return({ type: 5 });
+  }
+}
