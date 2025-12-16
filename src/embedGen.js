@@ -37,7 +37,7 @@ const sceneEmbed = (scrapeResult) => ({
           "value": scrapeResult.result.date
         }, {
           "name": "URL",
-          "value": scrapeResult.result.urls.join(", ") || "N/A",
+          "value": scrapeResult.result.urls ? scrapeResult.result.urls.join(", ") : "N/A",
           "inline": false
         }],
       "timestamp": scrapeResult.runnerInfo.date,
@@ -69,7 +69,7 @@ const groupEmbed = (scrapeResult) => ({
         "inline": true
       }, {
         "name": "URL",
-        "value": scrapeResult.result.urls.join(", ") || "N/A",
+        "value": scrapeResult.result.urls ? scrapeResult.result.urls.join(", ") : "N/A",
       }
     ],
     "timestamp": scrapeResult.runnerInfo.date,
@@ -95,7 +95,7 @@ const performerEmbed = (scrapeResult) => ({
         "inline": true
       }, {
         "name": "URL",
-        "value": scrapeResult.result.urls.join(", ") || "N/A"
+        "value": scrapeResult.result.urls ? scrapeResult.result.urls.join(", ") : "N/A",
       }
     ],
     "timestamp": scrapeResult.runnerInfo.date,
@@ -119,7 +119,7 @@ const galleryEmbed = (scrapeResult) => ({
       "value": scrapeResult.result.date
     }, {
       "name": "URL",
-      "value": scrapeResult.result.urls.join(", ") || "N/A",
+      "value": scrapeResult.result.urls ? scrapeResult.result.urls.join(", ") : "N/A",
     }],
     "timestamp": scrapeResult.runnerInfo.date,
     "footer": { "text": `stash ${scrapeResult.stashInfo.version.version}` },
@@ -142,7 +142,7 @@ const imageEmbed = (scrapeResult) => ({
       "value": scrapeResult.result.date
     }, {
       "name": "URL",
-      "value": scrapeResult.result.urls.join(", ") || "N/A",
+      "value": scrapeResult.result.urls ? scrapeResult.result.urls.join(", ") : "N/A",
       "inline": false
     }],
     "timestamp": scrapeResult.runnerInfo.date,
