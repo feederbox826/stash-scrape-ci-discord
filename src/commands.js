@@ -21,7 +21,6 @@ export const UPDATE_SCRAPERS = {
 export const SCRAPE_URL = {
   name: "scrape_url",
   description: "Scrape a specific URL.",
-  nsfw: true,
   options: [
     {
       name: "url",
