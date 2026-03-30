@@ -30,14 +30,14 @@ const sceneEmbed = (scrapeResult) => ({
       "description": scrapeResult.result.details || "No description available.",
       "fields": [{
           "name": "Performers",
-          "value": scrapeResult.result.performers.join(", ") || "N/A",
+          "value": scrapeResult.result?.performers ? scrapeResult.result.performers.join(", ") : "N/A",
           "inline": false
         }, {
           "name": "Date",
           "value": scrapeResult.result.date
         }, {
           "name": "URL",
-          "value": scrapeResult.result.urls ? scrapeResult.result.urls.join(", ") : "N/A",
+          "value": scrapeResult.result?.urls ? scrapeResult.result.urls.join(", ") : "N/A",
           "inline": false
         }],
       "timestamp": scrapeResult.runnerInfo.date,
