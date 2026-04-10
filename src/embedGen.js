@@ -6,7 +6,7 @@ export const scrapeURLEmbed = (scrapeResult) => {
   const scrapeType = scrapeResult.runnerInfo.scrapeType;
   if (scrapeResult.error) {
     return {
-      "content": `Error: ${scrapeResult.error.message}\n[View Job](https://scrape.feederbox.cc/${scrapeType}?id=${scrapeResult.jobId})`
+      "content": `Error Scraping. [Logs/ Results](https://scrape.feederbox.cc/${scrapeType}?id=${scrapeResult.jobId})`
     }
   }
   switch (scrapeType) {
