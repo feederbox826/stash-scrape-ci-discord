@@ -40,7 +40,7 @@ const handleInteraction = async ({ request, env, wait }) => {
   const commandMatch = commandsArray.find(e => e.name == commandName);
   // check authorized users
   // allow contributor, backers, stashdb admins
-  const allowedRoles = [582606438405505028,785994107373879316,1314029184460394497];
+  const allowedRoles = ['582606438405505028','785994107373879316','1314029184460394497'];
   const memberRoles = body.member.roles || [];
   const hasAllowedRole = memberRoles.some(roleId => allowedRoles.includes(roleId));
   if (!hasAllowedRole) {
